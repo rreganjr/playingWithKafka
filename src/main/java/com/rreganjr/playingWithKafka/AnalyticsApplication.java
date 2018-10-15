@@ -9,7 +9,6 @@ import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.state.KeyValueIterator;
-import org.apache.kafka.streams.state.QueryableStoreType;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
 import org.springframework.boot.ApplicationArguments;
@@ -34,9 +33,9 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static com.rreganjr.analytics.AnalyticsApplication.AnalyticsBinding.PAGE_COUNTS_IN;
-import static com.rreganjr.analytics.AnalyticsApplication.AnalyticsBinding.PAGE_COUNTS_OUT;
-import static com.rreganjr.analytics.AnalyticsApplication.AnalyticsBinding.PAGE_COUNT_MV;
+import static com.rreganjr.playingWithKafka.AnalyticsApplication.AnalyticsBinding.PAGE_COUNTS_IN;
+import static com.rreganjr.playingWithKafka.AnalyticsApplication.AnalyticsBinding.PAGE_COUNTS_OUT;
+import static com.rreganjr.playingWithKafka.AnalyticsApplication.AnalyticsBinding.PAGE_COUNT_MV;
 
 /**
  * from https://www.youtube.com/watch?v=YPDzcmqwCNo
@@ -157,7 +156,7 @@ public class AnalyticsApplication {
 		@GetMapping("/counts")
 		Map<String,Long> counts () {
 			Map<String,Long> counts = new HashMap<>();
-			ReadOnlyKeyValueStore<String,Long> queriableStoreType = registry.getQueryableStoreType(AnalyticsBinding.PAGE_COUNT_MV, QueryableStoreTypes.keyValueStore());
+			ReadOnlyKeyValueStore<String,Long> queriableStoreType = registry.getQueryableStoreType(PAGE_COUNT_MV, QueryableStoreTypes.keyValueStore());
 			KeyValueIterator<String,Long> all = queriableStoreType.all();
 			while (all.hasNext()) {
 				KeyValue<String,Long> value = all.next();
